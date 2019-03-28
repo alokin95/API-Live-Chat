@@ -3,6 +3,7 @@ require('./bootstrap');
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
+import 'bulma/css/bulma.css'
 
 
 Vue.use(VueCookies)

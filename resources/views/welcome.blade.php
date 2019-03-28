@@ -19,7 +19,7 @@
             <router-view></router-view>
             
         </div>
-      
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="{{asset('js/app.js')}}"></script>
     </body>
 </html>

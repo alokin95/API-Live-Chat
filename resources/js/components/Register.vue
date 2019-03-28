@@ -1,26 +1,82 @@
 <template>
     <div>
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+        <div class="field">
+            <label class="label">Username</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="text" placeholder="Text input" value="" v-model="user.username">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                            <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+
+        <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="text" placeholder="Enter password" value="" v-model="user.password">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-unlock-alt"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-unlock-alt"></i>
+                </span>
             </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+
+        <div class="field">
+            <label class="label">Repeat password</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="text" placeholder="Repeat password" value="" v-model="user.password_confirmation">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-unlock-alt"></i>
+                </span>
+                <span class="icon is-small is-right">
+                 <i class="fas fa-unlock-alt"></i>
+                </span>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
+
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" @click="register">Submit</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
+        data()
+        {
+            return {
+                user: {
+                    username: "",
+                    password: "",
+                    password_confirmation: ""
+                }
+            }
+        },
+
+        methods:{
+            register()
+            {
+                let self = this;
+                axios.post('api/users', {
+                    user: self.user
+                })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
 
     }
 </script>
