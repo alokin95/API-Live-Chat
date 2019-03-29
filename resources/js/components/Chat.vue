@@ -2,14 +2,13 @@
     <div>
         <h1>Chat App</h1>
         <ContactList :contacts="contacts"/>
-        <MessageComposer :selectedContact="selected"/>
     </div>
 </template>
 
 <script>
 
     import ContactList from './ContactList';
-    import MessageComposer from './MessageComposer';
+
 
     export default {
 
@@ -41,14 +40,14 @@
         {
           this.loadContacts();
           Event.$on('contact-selected', (selected) => {
+              console.log(selected);
               this.selected = selected;
           })
         },
 
 
         components: {
-            ContactList,
-            MessageComposer
+            ContactList
         }
     }
 </script>

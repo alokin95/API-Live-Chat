@@ -18,8 +18,9 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="inbox_chat">
-                        <div v-for="contact in contacts" class="chat_list active_chat">
+                        <div v-for="contact in contacts" class="chat_list active_chat" @click="startConversationWith(contact)">
                             <div class="chat_people">
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
@@ -33,6 +34,7 @@
                     </div>
                 </div>
                 <div class="mesgs">
+                    <MessageFeed/>
                 </div>
             </div>
 
@@ -42,6 +44,9 @@
 </template>
 
 <script>
+
+    import MessageFeed from './MessageFeed';
+
     export default {
 
         props: {
@@ -63,10 +68,13 @@
 
             startConversationWith(contact)
             {
-                this.selectedContact = contact;
                 Event.$emit('contact-selected', contact);
             }
 
+        },
+
+        components:{
+            MessageFeed
         }
     }
 </script>
@@ -124,8 +132,9 @@
         width: 88%;
     }
 
-    .chat_people{ overflow:hidden; clear:both;}
+    .chat_people{ overflow:hidden; clear:both; cursor: pointer;}
     .chat_list {
+        cursor: pointer;
         border-bottom: 1px solid #c4c4c4;
         margin: 0;
         padding: 18px 16px 10px;
