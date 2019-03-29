@@ -1943,6 +1943,25 @@ __webpack_require__.r(__webpack_exports__);
     selectedContact: {
       type: Object
     }
+  },
+  data: function data() {
+    return {
+      message: ""
+    };
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var self = this;
+      axios.post('api/messages', {
+        message: self.message,
+        user: self.selectedContact
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      this.message = "";
+    }
   }
 });
 
@@ -3537,23 +3556,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("textarea", {
-        staticClass: "textarea",
-        attrs: { placeholder: "Start typing here..." }
-      }),
-      _vm._v(" "),
-      _c("a", { staticClass: "button is-info" }, [_vm._v("Info")])
+  return _c("div", [
+    _c("textarea", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.message,
+          expression: "message"
+        }
+      ],
+      staticClass: "textarea",
+      attrs: { placeholder: "Start typing here..." },
+      domProps: { value: _vm.message },
+      on: {
+        keydown: function($event) {
+          if (
+            !$event.type.indexOf("key") &&
+            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+          ) {
+            return null
+          }
+          return _vm.sendMessage($event)
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.message = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("a", { staticClass: "button is-info", on: { click: _vm.sendMessage } }, [
+      _vm._v("Send")
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -16,8 +16,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/test', function()
+{
+    return auth()->user();
+});
+
 
 Route::get('/', 'HomeController@index');
 Route::post('/users', 'AuthController@store');
 Route::post('/login', 'AuthController@login');
-Route::get('/contacts', 'UserController@contacts');
+
+Route::middleware('jwt.auth')->group(function()
+{
+    Route::get('/contacts', 'UserController@contacts');
+    Route::post('/messages', 'MessageController@store');
+
+});

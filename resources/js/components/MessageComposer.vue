@@ -1,7 +1,7 @@
 <template>
     <div>
-        <textarea class="textarea" placeholder="Start typing here..."></textarea>
-        <a class="button is-info">Info</a>
+        <textarea @keydown.enter="sendMessage" v-model="message" class="textarea" placeholder="Start typing here..."></textarea>
+        <a class="button is-info" @click="sendMessage">Send</a>
     </div>
 </template>
 
@@ -11,6 +11,37 @@
             selectedContact: {
                 type: Object
             }
+        },
+
+        data()
+        {
+            return {
+                message: "",
+            }
+        },
+
+        methods:{
+
+            sendMessage()
+            {
+                let self = this;
+
+                axios.post('api/messages', {
+                    message: self.message,
+                    user: self.selectedContact
+                })
+                    .then(function(response)
+                    {
+                        console.log(response);
+                    })
+                    .catch(function(error)
+                    {
+                        console.log(error);
+                    });
+
+                this.message = "";
+            }
+
         }
     }
 </script>
