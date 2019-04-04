@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="mesgs">
-                    <MessageFeed/>
+                    <MessageFeed :selectedContact="selected"/>
                 </div>
             </div>
 
@@ -49,27 +49,39 @@
 
     export default {
 
-        props: {
-            contacts: {
-                type: Array,
-                required: true
-            }
-        },
 
         data()
         {
             return {
-
+                contacts: [],
+                selected: {}
             }
         },
 
         methods: {
 
+            loadContacts() {
+                let self = this;
+                axios.get('api/contacts', {
+                    token: $cookies.get('token')
+                })
+                    .then(function (response) {
+                        self.contacts = response.data.contacts;
+
+                        self.selected = response.data.contacts[0];
+                    })
+            },
 
             startConversationWith(contact)
             {
-                Event.$emit('contact-selected', contact);
+                this.selected = contact;
             }
+
+        },
+
+        mounted() {
+
+            this.loadContacts();
 
         },
 

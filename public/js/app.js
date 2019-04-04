@@ -1774,31 +1774,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      contacts: [],
-      selected: {}
-    };
+    return {};
   },
-  methods: {
-    loadContacts: function loadContacts() {
-      var self = this;
-      axios.get('api/contacts', {
-        token: $cookies.get('token')
-      }).then(function (response) {
-        self.contacts = response.data.contacts;
-        self.selected = response.data.contacts[0];
-      });
-    }
-  },
-  created: function created() {
-    var _this = this;
-
-    this.loadContacts();
-    Event.$on('contact-selected', function (selected) {
-      console.log(selected);
-      _this.selected = selected;
-    });
-  },
+  methods: {},
+  created: function created() {},
   components: {
     ContactList: _ContactList__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -1863,19 +1842,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    contacts: {
-      type: Array,
-      required: true
-    }
-  },
   data: function data() {
-    return {};
+    return {
+      contacts: [],
+      selected: {}
+    };
   },
   methods: {
+    loadContacts: function loadContacts() {
+      var self = this;
+      axios.get('api/contacts', {
+        token: $cookies.get('token')
+      }).then(function (response) {
+        self.contacts = response.data.contacts;
+        self.selected = response.data.contacts[0];
+      });
+    },
     startConversationWith: function startConversationWith(contact) {
-      Event.$emit('contact-selected', contact);
+      this.selected = contact;
     }
+  },
+  mounted: function mounted() {
+    this.loadContacts();
   },
   components: {
     MessageFeed: _MessageFeed__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -2018,7 +2006,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    selectedContact: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      message: ""
+    };
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var self = this;
+      axios.post('api/messages', {
+        message: self.message,
+        user: self.selectedContact
+      }).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      this.message = "";
+    }
+  }
+});
 
 /***/ }),
 
@@ -3502,11 +3516,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _c("h1", [_vm._v("Chat App")]),
-      _vm._v(" "),
-      _c("ContactList", { attrs: { contacts: _vm.contacts } })
-    ],
+    [_c("h1", [_vm._v("Chat App")]), _vm._v(" "), _c("ContactList")],
     1
   )
 }
@@ -3580,7 +3590,12 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "mesgs" }, [_c("MessageFeed")], 1)
+        _c(
+          "div",
+          { staticClass: "mesgs" },
+          [_c("MessageFeed", { attrs: { selectedContact: _vm.selected } })],
+          1
+        )
       ])
     ])
   ])
@@ -3782,45 +3797,76 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "type_msg" }, [
+      _c("div", { staticClass: "input_msg_write" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.message,
+              expression: "message"
+            }
+          ],
+          staticClass: "write_msg",
+          attrs: { type: "text", placeholder: "Type a message" },
+          domProps: { value: _vm.message },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.sendMessage($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.message = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "msg_send_btn",
+            attrs: { type: "button" },
+            on: { click: _vm.sendMessage }
+          },
+          [_c("i", { staticClass: "far fa-paper-plane" })]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "msg_history" }, [
-        _c("div", { staticClass: "incoming_msg" }, [
-          _c("div", { staticClass: "incoming_msg_img" }, [
-            _c("img", {
-              attrs: {
-                src: "https://ptetutorials.com/images/user-profile.png",
-                alt: "sunil"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "received_msg" }, [
-            _c("div", { staticClass: "received_withd_msg" }, [
-              _c("p", [
-                _vm._v(
-                  "Test which is a new approach to have all\n                    solutions"
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "time_date" }, [
-                _vm._v(" 11:01 AM    |    June 9")
-              ])
-            ])
-          ])
+    return _c("div", { staticClass: "msg_history" }, [
+      _c("div", { staticClass: "incoming_msg" }, [
+        _c("div", { staticClass: "incoming_msg_img" }, [
+          _c("img", {
+            attrs: {
+              src: "https://ptetutorials.com/images/user-profile.png",
+              alt: "sunil"
+            }
+          })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "outgoing_msg" }, [
-          _c("div", { staticClass: "sent_msg" }, [
+        _c("div", { staticClass: "received_msg" }, [
+          _c("div", { staticClass: "received_withd_msg" }, [
             _c("p", [
               _vm._v(
-                "Test which is a new approach to have all\n                solutions"
+                "Test which is a new approach to have all\n                    solutions"
               )
             ]),
             _vm._v(" "),
@@ -3828,82 +3874,76 @@ var staticRenderFns = [
               _vm._v(" 11:01 AM    |    June 9")
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "incoming_msg" }, [
-          _c("div", { staticClass: "incoming_msg_img" }, [
-            _c("img", {
-              attrs: {
-                src: "https://ptetutorials.com/images/user-profile.png",
-                alt: "sunil"
-              }
-            })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "outgoing_msg" }, [
+        _c("div", { staticClass: "sent_msg" }, [
+          _c("p", [
+            _vm._v(
+              "Test which is a new approach to have all\n                solutions"
+            )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "received_msg" }, [
-            _c("div", { staticClass: "received_withd_msg" }, [
-              _c("p", [_vm._v("Test, which is a new approach to have")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "time_date" }, [
-                _vm._v(" 11:01 AM    |    Yesterday")
-              ])
-            ])
+          _c("span", { staticClass: "time_date" }, [
+            _vm._v(" 11:01 AM    |    June 9")
           ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "incoming_msg" }, [
+        _c("div", { staticClass: "incoming_msg_img" }, [
+          _c("img", {
+            attrs: {
+              src: "https://ptetutorials.com/images/user-profile.png",
+              alt: "sunil"
+            }
+          })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "outgoing_msg" }, [
-          _c("div", { staticClass: "sent_msg" }, [
-            _c("p", [_vm._v("Apollo University, Delhi, India Test")]),
+        _c("div", { staticClass: "received_msg" }, [
+          _c("div", { staticClass: "received_withd_msg" }, [
+            _c("p", [_vm._v("Test, which is a new approach to have")]),
             _vm._v(" "),
             _c("span", { staticClass: "time_date" }, [
-              _vm._v(" 11:01 AM    |    Today")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "incoming_msg" }, [
-          _c("div", { staticClass: "incoming_msg_img" }, [
-            _c("img", {
-              attrs: {
-                src: "https://ptetutorials.com/images/user-profile.png",
-                alt: "sunil"
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "received_msg" }, [
-            _c("div", { staticClass: "received_withd_msg" }, [
-              _c("p", [
-                _vm._v(
-                  "We work directly with our designers and suppliers,\n                    and sell direct to you, which means quality, exclusive\n                    products, at a price anyone can afford."
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "time_date" }, [
-                _vm._v(" 11:01 AM    |    Today")
-              ])
+              _vm._v(" 11:01 AM    |    Yesterday")
             ])
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "type_msg" }, [
-        _c("div", { staticClass: "input_msg_write" }, [
-          _c("input", {
-            staticClass: "write_msg",
-            attrs: { type: "text", placeholder: "Type a message" }
-          }),
+      _c("div", { staticClass: "outgoing_msg" }, [
+        _c("div", { staticClass: "sent_msg" }, [
+          _c("p", [_vm._v("Apollo University, Delhi, India Test")]),
           _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "msg_send_btn", attrs: { type: "button" } },
-            [
-              _c("i", {
-                staticClass: "fa fa-paper-plane-o",
-                attrs: { "aria-hidden": "true" }
-              })
-            ]
-          )
+          _c("span", { staticClass: "time_date" }, [
+            _vm._v(" 11:01 AM    |    Today")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "incoming_msg" }, [
+        _c("div", { staticClass: "incoming_msg_img" }, [
+          _c("img", {
+            attrs: {
+              src: "https://ptetutorials.com/images/user-profile.png",
+              alt: "sunil"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "received_msg" }, [
+          _c("div", { staticClass: "received_withd_msg" }, [
+            _c("p", [
+              _vm._v(
+                "We work directly with our designers and suppliers,\n                    and sell direct to you, which means quality, exclusive\n                    products, at a price anyone can afford."
+              )
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "time_date" }, [
+              _vm._v(" 11:01 AM    |    Today")
+            ])
+          ])
         ])
       ])
     ])
