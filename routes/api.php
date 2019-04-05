@@ -29,6 +29,7 @@ Route::post('/login', 'AuthController@login');
 Route::middleware('jwt.auth')->group(function()
 {
     Route::get('/contacts', 'UserController@contacts');
+    Route::get('/messages', 'MessageController@index');
     Route::post('/messages', 'MessageController@store');
 
 });
