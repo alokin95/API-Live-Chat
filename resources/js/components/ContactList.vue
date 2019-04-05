@@ -22,11 +22,8 @@
                     <div class="inbox_chat">
                         <div v-for="contact in contacts" class="chat_list active_chat" @click="startConversationWith(contact)">
                             <div class="chat_people">
-                                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                                 <div class="chat_ib">
                                     <h5>{{contact.username}} <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +31,7 @@
                     </div>
                 </div>
                 <div class="mesgs">
-                    <MessageFeed :selectedContact="selected"/>
+                    <MessageFeed :selectedContact="selected" :messages="messages"/>
                 </div>
             </div>
 
@@ -54,7 +51,8 @@
         {
             return {
                 contacts: [],
-                selected: {}
+                selected: {},
+                messages: []
             }
         },
 
@@ -69,12 +67,32 @@
                         self.contacts = response.data.contacts;
 
                         self.selected = response.data.contacts[0];
+
+                        self.loadMessages(self.selected.id);
                     })
             },
 
             startConversationWith(contact)
             {
                 this.selected = contact;
+
+                // Event.$emit('contact-selected', this.selected);
+                this.loadMessages(contact.id);
+            },
+
+            loadMessages(contactId)
+            {
+                let self = this;
+
+                axios.get('api/messages?user='+contactId, {
+
+                })
+                    .then(function (response) {
+                        self.messages = response.data.messages;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             }
 
         },

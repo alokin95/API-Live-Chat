@@ -1773,11 +1773,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {};
-  },
-  methods: {},
-  created: function created() {},
   components: {
     ContactList: _ContactList__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -1837,15 +1832,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       contacts: [],
-      selected: {}
+      selected: {},
+      messages: []
     };
   },
   methods: {
@@ -1856,10 +1849,21 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         self.contacts = response.data.contacts;
         self.selected = response.data.contacts[0];
+        self.loadMessages(self.selected.id);
       });
     },
     startConversationWith: function startConversationWith(contact) {
-      this.selected = contact;
+      this.selected = contact; // Event.$emit('contact-selected', this.selected);
+
+      this.loadMessages(contact.id);
+    },
+    loadMessages: function loadMessages(contactId) {
+      var self = this;
+      axios.get('api/messages?user=' + contactId, {}).then(function (response) {
+        self.messages = response.data.messages;
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
@@ -1978,59 +1982,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     selectedContact: {
       type: Object,
       required: true
+    },
+    messages: {
+      type: Array,
+      required: true
     }
   },
   data: function data() {
     return {
-      message: ""
+      newMessage: ""
     };
   },
   methods: {
     sendMessage: function sendMessage() {
       var self = this;
       axios.post('api/messages', {
-        message: self.message,
+        message: self.newMessage,
         user: self.selectedContact
       }).then(function (response) {
         console.log(response);
       }).catch(function (error) {
         console.log(error);
       });
-      this.message = "";
+      this.newMessage = "";
+      this.loadMessages();
+    },
+    loadMessages: function loadMessages(selectedId) {
+      var self = this;
+      axios.get('api/messages?user=' + selectedId, {}).then(function (response) {
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
+  },
+  mounted: function mounted() {// let self = this;
+    // Event.$on('contact-selected', function(contact)
+    // {
+    //     self.loadMessages(contact.id);
+    // });
   }
 });
 
@@ -3566,20 +3561,12 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "chat_people" }, [
-                    _vm._m(1, true),
-                    _vm._v(" "),
                     _c("div", { staticClass: "chat_ib" }, [
                       _c("h5", [
                         _vm._v(_vm._s(contact.username) + " "),
                         _c("span", { staticClass: "chat_date" }, [
                           _vm._v("Dec 25")
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "Test, which is a new approach to have all solutions\n                                    astrology under one roof."
-                        )
                       ])
                     ])
                   ])
@@ -3593,7 +3580,11 @@ var render = function() {
         _c(
           "div",
           { staticClass: "mesgs" },
-          [_c("MessageFeed", { attrs: { selectedContact: _vm.selected } })],
+          [
+            _c("MessageFeed", {
+              attrs: { selectedContact: _vm.selected, messages: _vm.messages }
+            })
+          ],
           1
         )
       ])
@@ -3627,19 +3618,6 @@ var staticRenderFns = [
           ])
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chat_img" }, [
-      _c("img", {
-        attrs: {
-          src: "https://ptetutorials.com/images/user-profile.png",
-          alt: "sunil"
-        }
-      })
     ])
   }
 ]
@@ -3798,7 +3776,26 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c(
+      "div",
+      { staticClass: "msg_history" },
+      _vm._l(_vm.messages, function(message) {
+        return _c("div", { staticClass: "incoming_msg" }, [
+          _vm._m(0, true),
+          _vm._v(" "),
+          _c("div", { staticClass: "received_msg" }, [
+            _c("div", { staticClass: "received_withd_msg" }, [
+              _c("p", [_vm._v(_vm._s(message.message))]),
+              _vm._v(" "),
+              _c("span", { staticClass: "time_date" }, [
+                _vm._v(" 11:01 AM    |    June 9")
+              ])
+            ])
+          ])
+        ])
+      }),
+      0
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "type_msg" }, [
       _c("div", { staticClass: "input_msg_write" }, [
@@ -3851,101 +3848,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "msg_history" }, [
-      _c("div", { staticClass: "incoming_msg" }, [
-        _c("div", { staticClass: "incoming_msg_img" }, [
-          _c("img", {
-            attrs: {
-              src: "https://ptetutorials.com/images/user-profile.png",
-              alt: "sunil"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "received_msg" }, [
-          _c("div", { staticClass: "received_withd_msg" }, [
-            _c("p", [
-              _vm._v(
-                "Test which is a new approach to have all\n                    solutions"
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "time_date" }, [
-              _vm._v(" 11:01 AM    |    June 9")
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "outgoing_msg" }, [
-        _c("div", { staticClass: "sent_msg" }, [
-          _c("p", [
-            _vm._v(
-              "Test which is a new approach to have all\n                solutions"
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "time_date" }, [
-            _vm._v(" 11:01 AM    |    June 9")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "incoming_msg" }, [
-        _c("div", { staticClass: "incoming_msg_img" }, [
-          _c("img", {
-            attrs: {
-              src: "https://ptetutorials.com/images/user-profile.png",
-              alt: "sunil"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "received_msg" }, [
-          _c("div", { staticClass: "received_withd_msg" }, [
-            _c("p", [_vm._v("Test, which is a new approach to have")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "time_date" }, [
-              _vm._v(" 11:01 AM    |    Yesterday")
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "outgoing_msg" }, [
-        _c("div", { staticClass: "sent_msg" }, [
-          _c("p", [_vm._v("Apollo University, Delhi, India Test")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "time_date" }, [
-            _vm._v(" 11:01 AM    |    Today")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "incoming_msg" }, [
-        _c("div", { staticClass: "incoming_msg_img" }, [
-          _c("img", {
-            attrs: {
-              src: "https://ptetutorials.com/images/user-profile.png",
-              alt: "sunil"
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "received_msg" }, [
-          _c("div", { staticClass: "received_withd_msg" }, [
-            _c("p", [
-              _vm._v(
-                "We work directly with our designers and suppliers,\n                    and sell direct to you, which means quality, exclusive\n                    products, at a price anyone can afford."
-              )
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "time_date" }, [
-              _vm._v(" 11:01 AM    |    Today")
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "incoming_msg_img" }, [
+      _c("img", {
+        attrs: {
+          src: "https://ptetutorials.com/images/user-profile.png",
+          alt: "sunil"
+        }
+      })
     ])
   }
 ]
