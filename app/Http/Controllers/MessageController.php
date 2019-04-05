@@ -7,6 +7,19 @@ use App\Message;
 
 class MessageController extends Controller
 {
+
+    public function index()
+    {
+        $messages = Message::where([
+            'from' => request()->user,
+            'to' => auth()->user()->id
+        ])->get();
+
+        return response()->json([
+            'messages' => $messages
+        ], 200);
+    }
+
     public function store()
     {
 //        dd(request()->all());
