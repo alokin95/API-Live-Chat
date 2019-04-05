@@ -9,12 +9,12 @@ class Message extends Model
 
     protected $guarded = [];
 
-    public function from()
+    public function messageFrom()
     {
-        return $this->belongsTo(User::class, from);
+        return $this->belongsTo(User::class, 'from');
     }
 
-    public function to()
+    public function messageTo()
     {
         return $this->belongsTo(User::class, 'to');
     }
