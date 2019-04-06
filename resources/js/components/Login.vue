@@ -1,4 +1,5 @@
 <template>
+    <form @submit.prevent>
     <div>
         <h1 class="title">Login</h1>
         <div class="field">
@@ -35,6 +36,7 @@
         </div>
 
     </div>
+</form>
 </template>
 
 <script>

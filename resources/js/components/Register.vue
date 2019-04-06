@@ -1,5 +1,7 @@
 <template>
     <div>
+    <form @submit.prevent>
+
         <h1 class="title">Register</h1>
     <div class="field">
         <label class="label">Username</label>
@@ -47,6 +49,7 @@
         </div>
     </div>
 
+    </form>
     <Login/>
 </div>
 </template>
