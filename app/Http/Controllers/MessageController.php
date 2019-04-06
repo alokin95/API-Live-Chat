@@ -35,7 +35,7 @@ class MessageController extends Controller
 
     public function store()
     {
-//        dd(request()->all());
+
         request()->validate([
             'message' => 'required',
             'user' => 'required'
@@ -47,9 +47,7 @@ class MessageController extends Controller
             'message' => request()->message
         ]);
 
-        event(
-            (new MessageSent($message))->dontBroadcastToCurrentUser()
-        );
+        MessageSent::dispatch($message);
         
         return response()->json([
             'message' => $message
