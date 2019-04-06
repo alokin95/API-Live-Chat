@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Message;
 use App\User;
+use App\Events\MessageSent;
 
 class MessageController extends Controller
 {
@@ -40,11 +41,20 @@ class MessageController extends Controller
             'user' => 'required'
         ]);
 
-        Message::create([
+        $message = Message::create([
             'to' => request('user')['id'],
             'from' => auth()->user()->id,
             'message' => request()->message
         ]);
+
+        event(
+            (new MessageSent($message))->dontBroadcastToCurrentUser()
+        );
+        
+        return response()->json([
+            'message' => $message
+        ], 201);
+
     }
 
 }
