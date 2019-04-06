@@ -1859,7 +1859,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     loadMessages: function loadMessages(contactId) {
       var self = this;
-      axios.get('api/messages?user=' + contactId, {}).then(function (response) {
+      axios.get('api/messages?user=' + contactId + '&token=' + $cookies.get('token'), {}).then(function (response) {
         self.messages = response.data.messages;
       }).catch(function (error) {
         console.log(error);
@@ -1981,7 +1981,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     selectedContact: {
@@ -2010,15 +2009,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
       this.newMessage = "";
-      this.loadMessages();
-    },
-    loadMessages: function loadMessages(selectedId) {
-      var self = this;
-      axios.get('api/messages?user=' + selectedId, {}).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      });
     }
   },
   mounted: function mounted() {// let self = this;
@@ -2205,7 +2195,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.incoming_msg_img[data-v-0ecf4eaa] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ecf4eaa] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ecf4eaa] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ecf4eaa] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n}\n.received_withd_msg[data-v-0ecf4eaa] { width: 57%;}\n.mesgs[data-v-0ecf4eaa] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n.sent_msg p[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border-radius: 3px;\n    font-size: 14px;\n    margin: 0; color:#fff;\n    padding: 5px 10px 5px 12px;\n    width:100%;\n}\n.outgoing_msg[data-v-0ecf4eaa]{ overflow:hidden; margin:26px 0 26px;}\n.sent_msg[data-v-0ecf4eaa] {\n    float: right;\n    width: 46%;\n}\n.input_msg_write input[data-v-0ecf4eaa] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    color: #4c4c4c;\n    font-size: 15px;\n    min-height: 48px;\n    width: 100%;\n}\n.type_msg[data-v-0ecf4eaa] {border-top: 1px solid #c4c4c4;position: relative;}\n.msg_send_btn[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border: medium none;\n    border-radius: 50%;\n    color: #fff;\n    cursor: pointer;\n    font-size: 17px;\n    height: 33px;\n    position: absolute;\n    right: 0;\n    top: 11px;\n    width: 33px;\n}\n.messaging[data-v-0ecf4eaa] { padding: 0 0 50px 0;}\n.msg_history[data-v-0ecf4eaa] {\n    height: 516px;\n    overflow-y: auto;\n}\n", ""]);
+exports.push([module.i, "\n.incoming_msg_img[data-v-0ecf4eaa] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ecf4eaa] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ecf4eaa], .received_withd_msg_mine p[data-v-0ecf4eaa] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ecf4eaa] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n    text-align: center;\n}\n.received_withd_msg[data-v-0ecf4eaa] { width: 57%;\n}\n.received_withd_msg_mine[data-v-0ecf4eaa] { width: 57%; float: right;\n}\n.mesgs[data-v-0ecf4eaa] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n.sent_msg p[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border-radius: 3px;\n    font-size: 14px;\n    margin: 0; color:#fff;\n    padding: 5px 10px 5px 12px;\n    width:100%;\n}\n.outgoing_msg[data-v-0ecf4eaa]{ overflow:hidden; margin:26px 0 26px;}\n.sent_msg[data-v-0ecf4eaa] {\n    float: right;\n    width: 46%;\n}\n.input_msg_write input[data-v-0ecf4eaa] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    color: #4c4c4c;\n    font-size: 15px;\n    min-height: 48px;\n    width: 100%;\n}\n.type_msg[data-v-0ecf4eaa] {border-top: 1px solid #c4c4c4;position: relative;}\n.msg_send_btn[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border: medium none;\n    border-radius: 50%;\n    color: #fff;\n    cursor: pointer;\n    font-size: 17px;\n    height: 33px;\n    position: absolute;\n    right: 0;\n    top: 11px;\n    width: 33px;\n}\n.messaging[data-v-0ecf4eaa] { padding: 0 0 50px 0;}\n.msg_history[data-v-0ecf4eaa] {\n    height: 516px;\n    overflow-y: auto;\n}\n", ""]);
 
 // exports
 
@@ -3781,16 +3771,24 @@ var render = function() {
       { staticClass: "msg_history" },
       _vm._l(_vm.messages, function(message) {
         return _c("div", { staticClass: "incoming_msg" }, [
-          _vm._m(0, true),
-          _vm._v(" "),
           _c("div", { staticClass: "received_msg" }, [
-            _c("div", { staticClass: "received_withd_msg" }, [
-              _c("p", [_vm._v(_vm._s(message.message))]),
-              _vm._v(" "),
-              _c("span", { staticClass: "time_date" }, [
-                _vm._v(" 11:01 AM    |    June 9")
-              ])
-            ])
+            _c(
+              "div",
+              {
+                class: {
+                  received_withd_msg: message.from == _vm.selectedContact.id,
+                  received_withd_msg_mine:
+                    message.from != _vm.selectedContact.id
+                }
+              },
+              [
+                _c("p", [_vm._v(_vm._s(message.message))]),
+                _vm._v(" "),
+                _c("span", { staticClass: "time_date" }, [
+                  _vm._v(" 11:01 AM    |    June 9")
+                ])
+              ]
+            )
           ])
         ])
       }),
@@ -3804,13 +3802,13 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.message,
-              expression: "message"
+              value: _vm.newMessage,
+              expression: "newMessage"
             }
           ],
           staticClass: "write_msg",
           attrs: { type: "text", placeholder: "Type a message" },
-          domProps: { value: _vm.message },
+          domProps: { value: _vm.newMessage },
           on: {
             keydown: function($event) {
               if (
@@ -3825,7 +3823,7 @@ var render = function() {
               if ($event.target.composing) {
                 return
               }
-              _vm.message = $event.target.value
+              _vm.newMessage = $event.target.value
             }
           }
         }),
@@ -3843,21 +3841,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "incoming_msg_img" }, [
-      _c("img", {
-        attrs: {
-          src: "https://ptetutorials.com/images/user-profile.png",
-          alt: "sunil"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

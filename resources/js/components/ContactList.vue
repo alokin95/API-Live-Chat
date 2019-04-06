@@ -84,7 +84,7 @@
             {
                 let self = this;
 
-                axios.get('api/messages?user='+contactId, {
+                axios.get('api/messages?user='+contactId+'&token='+$cookies.get('token'), {
 
                 })
                     .then(function (response) {

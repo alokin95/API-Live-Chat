@@ -3,9 +3,8 @@
     <div class="msg_history">
 
         <div class="incoming_msg" v-for="message in messages">
-            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
             <div class="received_msg">
-                <div class="received_withd_msg">
+                <div :class="{received_withd_msg : message.from == selectedContact.id, 'received_withd_msg_mine' : message.from != selectedContact.id}">
                     <p>{{message.message}}</p>
                     <span class="time_date"> 11:01 AM    |    June 9</span></div>
             </div>
@@ -14,7 +13,7 @@
     </div>
     <div class="type_msg">
         <div class="input_msg_write">
-            <input type="text" v-model="message" class="write_msg"  @keydown.enter="sendMessage" placeholder="Type a message" />
+            <input type="text" v-model="newMessage" class="write_msg"  @keydown.enter="sendMessage" placeholder="Type a message" />
             <button @click="sendMessage" class="msg_send_btn" type="button"><i class="far fa-paper-plane"></i></button>
         </div>
     </div>
@@ -62,22 +61,6 @@
 
                 this.newMessage = "";
 
-                this.loadMessages();
-            },
-
-            loadMessages(selectedId)
-            {
-                let self = this;
-
-                axios.get('api/messages?user='+selectedId, {
-
-                })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
             }
         },
 
@@ -104,7 +87,7 @@
         vertical-align: top;
         width: 92%;
     }
-    .received_withd_msg p {
+    .received_withd_msg p, .received_withd_msg_mine p {
         background: #ebebeb none repeat scroll 0 0;
         border-radius: 3px;
         color: #646464;
@@ -118,8 +101,10 @@
         display: block;
         font-size: 12px;
         margin: 8px 0 0;
+        text-align: center;
     }
-    .received_withd_msg { width: 57%;}
+    .received_withd_msg { width: 57%; }
+    .received_withd_msg_mine { width: 57%; float: right; }
     .mesgs {
         float: left;
         padding: 30px 15px 0 25px;
