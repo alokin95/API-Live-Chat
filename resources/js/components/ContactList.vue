@@ -99,6 +99,17 @@
 
         mounted() {
 
+            let self = this;
+
+            Event.$on('message-sent', function(e)
+            {
+                self.messages.push(e);
+            });
+            window.Echo.channel('messages')
+                .listen('MessageSent', e => {
+                    this.messages.push(e.message);
+                });
+
             this.loadContacts();
 
         },
