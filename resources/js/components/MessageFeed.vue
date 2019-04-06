@@ -52,7 +52,7 @@
                 })
                     .then(function(response)
                     {
-                        console.log(response);
+                        Event.$emit('message-sent', response.data.message);
                     })
                     .catch(function(error)
                     {
