@@ -46,13 +46,10 @@
 
     export default {
 
-
         data()
         {
             return {
-                currentUser: {
-                    id: 1
-                },
+                currentUser: {},
                 contacts: [],
                 selected: {},
                 messages: []
@@ -60,6 +57,20 @@
         },
 
         methods: {
+
+            getAuthUser()
+            {
+                let self = this;
+
+                axios.get('api/auth', {
+                    token: $cookies.get('token')
+                })
+                .then(function (response) {
+                    self.currentUser = response.data.user;
+
+                    self.listenChannel();
+                })
+            },
 
             loadContacts() {
                 let self = this;
@@ -72,6 +83,7 @@
                         self.selected = response.data.contacts[0];
 
                         self.loadMessages(self.selected.id);
+
                     })
             },
 
@@ -95,25 +107,30 @@
                     .catch(function (error) {
                         console.log(error);
                     })
+            },
+
+            listenChannel()
+            {
+                window.Echo.private(`messages.${this.currentUser.id}`)
+                    .listen('MessageSent', e => {
+                        this.messages.push(e.message);
+                    });
             }
 
         },
 
-        mounted() {
+        created() {
 
             let self = this;
+
 
             Event.$on('message-sent', function(e)
             {
                 self.messages.push(e);
             });
 
-            window.Echo.private(`messages.${this.currentUser.id}`)
-                .listen('MessageSent', e => {
-                    this.messages.push(e.message);
-                });
-
             this.loadContacts();
+            this.getAuthUser();
 
         },
 
