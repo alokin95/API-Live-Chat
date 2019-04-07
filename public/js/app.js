@@ -1843,6 +1843,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getAuthUser: function getAuthUser() {
+      var self = this;
+      axios.get('api/auth', {
+        token: $cookies.get('token')
+      }).then(function (response) {
+        self.currentUser = response.data.user;
+        self.listenChannel();
+      });
+    },
     loadContacts: function loadContacts() {
       var self = this;
       axios.get('api/contacts', {
@@ -1864,24 +1873,22 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    listenChannel: function listenChannel() {
+      var _this = this;
+
+      window.Echo.private("messages.".concat(this.currentUser.id)).listen('MessageSent', function (e) {
+        _this.messages.push(e.message);
+      });
     }
   },
-  mounted: function mounted() {
-    var _this = this;
-
+  created: function created() {
     var self = this;
-    axios.get('api/auth-user?token=' + $cookies.get('token')).then(function (response) {
-      self.currentUser = response.data.user;
-    }).catch(function (error) {
-      console.log(error);
-    });
     Event.$on('message-sent', function (e) {
       self.messages.push(e);
     });
-    window.Echo.private("messages.".concat(this.currentUser.id)).listen('MessageSent', function (e) {
-      _this.messages.push(e.message);
-    });
     this.loadContacts();
+    this.getAuthUser();
   },
   components: {
     MessageFeed: _MessageFeed__WEBPACK_IMPORTED_MODULE_0__["default"]
