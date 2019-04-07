@@ -50,6 +50,9 @@
         data()
         {
             return {
+                currentUser: {
+                    id: 1
+                },
                 contacts: [],
                 selected: {},
                 messages: []
@@ -76,7 +79,6 @@
             {
                 this.selected = contact;
 
-                // Event.$emit('contact-selected', this.selected);
                 this.loadMessages(contact.id);
             },
 
@@ -105,7 +107,8 @@
             {
                 self.messages.push(e);
             });
-            window.Echo.channel('messages')
+
+            window.Echo.private(`messages.${this.currentUser.id}`)
                 .listen('MessageSent', e => {
                     this.messages.push(e.message);
                 });

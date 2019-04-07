@@ -1836,6 +1836,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      currentUser: {},
       contacts: [],
       selected: {},
       messages: []
@@ -1853,8 +1854,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     startConversationWith: function startConversationWith(contact) {
-      this.selected = contact; // Event.$emit('contact-selected', this.selected);
-
+      this.selected = contact;
       this.loadMessages(contact.id);
     },
     loadMessages: function loadMessages(contactId) {
@@ -1870,10 +1870,15 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var self = this;
+    axios.get('api/auth-user?token=' + $cookies.get('token')).then(function (response) {
+      self.currentUser = response.data.user;
+    }).catch(function (error) {
+      console.log(error);
+    });
     Event.$on('message-sent', function (e) {
       self.messages.push(e);
     });
-    window.Echo.channel('messages').listen('MessageSent', function (e) {
+    window.Echo.private("messages.".concat(this.currentUser.id)).listen('MessageSent', function (e) {
       _this.messages.push(e.message);
     });
     this.loadContacts();
@@ -29460,6 +29465,7 @@ var routes = [{
   path: '/',
   component: __webpack_require__(/*! ./components/Register */ "./resources/js/components/Register.vue").default
 }, {
+  name: 'home',
   path: '/home',
   component: __webpack_require__(/*! ./components/Chat */ "./resources/js/components/Chat.vue").default
 }];
