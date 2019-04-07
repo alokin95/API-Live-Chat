@@ -7,6 +7,7 @@ let routes = [
     component: require('./components/Register').default
   },
   {
+    name: 'home',
     path: '/home',
     component: require('./components/Chat').default
   }
