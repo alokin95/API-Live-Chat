@@ -13,4 +13,11 @@ class UserController extends Controller
             'contacts' => User::all()
         ], 200);
     }
+
+    public function auth()
+    {
+        return response()->json([
+            'user' => auth()->user()
+        ], 200);
+    }
 }
