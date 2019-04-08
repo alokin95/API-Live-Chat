@@ -9,8 +9,10 @@ class UserController extends Controller
 {
     public function contacts()
     {
+        $users = User::where('id','!=', auth()->user()->id)->get();
+
         return response()->json([
-            'contacts' => User::all()
+            'contacts' => $users
         ], 200);
     }
 

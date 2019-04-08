@@ -2021,6 +2021,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    scrollFeed: function scrollFeed() {
+      var _this = this;
+
+      setTimeout(function () {
+        _this.$refs.feed.scrollTop = _this.$refs.feed.scrollHeight - _this.$refs.feed.clientHeight;
+      }, 50);
+    },
     sendMessage: function sendMessage() {
       var self = this;
       axios.post('api/messages', {
@@ -2034,11 +2041,13 @@ __webpack_require__.r(__webpack_exports__);
       this.newMessage = "";
     }
   },
-  mounted: function mounted() {// let self = this;
-    // Event.$on('contact-selected', function(contact)
-    // {
-    //     self.loadMessages(contact.id);
-    // });
+  watch: {
+    messages: function messages() {
+      this.scrollFeed();
+    },
+    contact: function contact() {
+      this.scrollFeed();
+    }
   }
 });
 
@@ -13959,7 +13968,7 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "msg_history" },
+      { ref: "feed", staticClass: "msg_history" },
       _vm._l(_vm.messages, function(message) {
         return _c("div", { staticClass: "incoming_msg" }, [
           _c("div", { staticClass: "received_msg" }, [

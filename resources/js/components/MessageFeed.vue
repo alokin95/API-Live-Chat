@@ -1,6 +1,6 @@
 <template>
     <div>
-    <div class="msg_history">
+    <div class="msg_history" ref="feed">
 
         <div class="incoming_msg" v-for="message in messages">
             <div class="received_msg">
@@ -42,6 +42,13 @@
 
         methods: {
 
+            scrollFeed()
+            {
+                setTimeout(() => {
+                    this.$refs.feed.scrollTop = this.$refs.feed.scrollHeight - this.$refs.feed.clientHeight;
+                }, 50);
+            },
+
             sendMessage()
             {
                 let self = this;
@@ -64,18 +71,23 @@
             }
         },
 
-        mounted()
-        {
-            // let self = this;
-            // Event.$on('contact-selected', function(contact)
-            // {
-            //     self.loadMessages(contact.id);
-            // });
-        }
+        watch: {
+
+            messages()
+            {
+                this.scrollFeed();
+            },
+
+            contact()
+            {
+                this.scrollFeed();
+            }
+        },
     }
 </script>
 
 <style scoped>
+
 
     .incoming_msg_img {
         display: inline-block;
