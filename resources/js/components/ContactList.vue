@@ -74,8 +74,9 @@
 
             loadContacts() {
                 let self = this;
-                axios.get('api/contacts', {
-                    token: $cookies.get('token')
+
+                axios.get('api/contacts?token='+$cookies.get('token'), {
+
                 })
                     .then(function (response) {
                         self.contacts = response.data.contacts;
@@ -97,6 +98,7 @@
             loadMessages(contactId)
             {
                 let self = this;
+
 
                 axios.get('api/messages?user='+contactId+'&token='+$cookies.get('token'), {
 

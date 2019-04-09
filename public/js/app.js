@@ -1854,9 +1854,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     loadContacts: function loadContacts() {
       var self = this;
-      axios.get('api/contacts', {
-        token: $cookies.get('token')
-      }).then(function (response) {
+      axios.get('api/contacts?token=' + $cookies.get('token'), {}).then(function (response) {
         self.contacts = response.data.contacts;
         self.selected = response.data.contacts[0];
         self.loadMessages(self.selected.id);
