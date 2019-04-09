@@ -1,12 +1,12 @@
 <template>
     <div>
-    <div class="msg_history" ref="feed">
 
+    <div class="msg_history" ref="feed">
         <div class="incoming_msg" v-for="message in messages">
             <div class="received_msg">
                 <div :class="{received_withd_msg : message.from == selectedContact.id, 'received_withd_msg_mine' : message.from != selectedContact.id}">
                     <p>{{message.message}}</p>
-                    <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                    <span class="time_date"> {{message.created_at}}</span></div>
             </div>
         </div>
 

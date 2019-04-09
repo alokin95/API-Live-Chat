@@ -1832,6 +1832,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -13724,7 +13725,8 @@ var render = function() {
               return _c(
                 "div",
                 {
-                  staticClass: "chat_list active_chat",
+                  staticClass: "chat_list",
+                  class: { active_chat: contact.id == _vm.selected.id },
                   on: {
                     click: function($event) {
                       return _vm.startConversationWith(contact)
@@ -13734,12 +13736,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "chat_people" }, [
                     _c("div", { staticClass: "chat_ib" }, [
-                      _c("h5", [
-                        _vm._v(_vm._s(contact.username) + " "),
-                        _c("span", { staticClass: "chat_date" }, [
-                          _vm._v("Dec 25")
-                        ])
-                      ])
+                      _c("h5", [_vm._v(_vm._s(contact.username))])
                     ])
                   ])
                 ]
@@ -13748,6 +13745,8 @@ var render = function() {
             0
           )
         ]),
+        _vm._v(" "),
+        _c("h1", [_vm._v(_vm._s(_vm.selected.username))]),
         _vm._v(" "),
         _c(
           "div",
@@ -13983,7 +13982,7 @@ var render = function() {
                 _c("p", [_vm._v(_vm._s(message.message))]),
                 _vm._v(" "),
                 _c("span", { staticClass: "time_date" }, [
-                  _vm._v(" 11:01 AM    |    June 9")
+                  _vm._v(" " + _vm._s(message.created_at))
                 ])
               ]
             )

@@ -20,16 +20,17 @@
                     </div>
 
                     <div class="inbox_chat">
-                        <div v-for="contact in contacts" class="chat_list active_chat" @click="startConversationWith(contact)">
+                        <div v-for="contact in contacts" class="chat_list" :class="{ active_chat : contact.id == selected.id}" @click="startConversationWith(contact)">
                             <div class="chat_people">
                                 <div class="chat_ib">
-                                    <h5>{{contact.username}} <span class="chat_date">Dec 25</span></h5>
+                                    <h5>{{contact.username}}</h5>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+                <h1>{{selected.username}}</h1>
                 <div class="mesgs">
                     <MessageFeed :selectedContact="selected" :messages="messages"/>
                 </div>
