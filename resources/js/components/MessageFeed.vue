@@ -11,7 +11,7 @@
         </div>
 
     </div>
-    <div class="type_msg">
+    <div class="type_msg" v-if="selected">
         <div class="input_msg_write">
             <input type="text" v-model="newMessage" class="write_msg"  @keydown.enter="sendMessage" placeholder="Type a message" />
             <button @click="sendMessage" class="msg_send_btn" type="button"><i class="far fa-paper-plane"></i></button>
