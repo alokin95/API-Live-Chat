@@ -23,12 +23,6 @@ class UserController extends Controller
 
         $users = $q->get();
 
-//        $users = User::withCount(['sentMessages' => function ($query){
-//           $query->where('to', auth()->user()->id);
-//           $query->where('read', false);
-//        }])
-//            ->where('id','!=', auth()->user()->id)->get();
-
 
         return response()->json([
             'contacts' => $users
