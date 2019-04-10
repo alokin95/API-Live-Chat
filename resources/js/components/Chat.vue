@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Chat App</h1>
         <ContactList/>
     </div>
 </template>
