@@ -14066,52 +14066,50 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _vm.selected
-      ? _c("div", { staticClass: "type_msg" }, [
-          _c("div", { staticClass: "input_msg_write" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newMessage,
-                  expression: "newMessage"
-                }
-              ],
-              staticClass: "write_msg",
-              attrs: { type: "text", placeholder: "Type a message" },
-              domProps: { value: _vm.newMessage },
-              on: {
-                keydown: function($event) {
-                  if (
-                    !$event.type.indexOf("key") &&
-                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                  ) {
-                    return null
-                  }
-                  return _vm.sendMessage($event)
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newMessage = $event.target.value
-                }
+    _c("div", { staticClass: "type_msg" }, [
+      _c("div", { staticClass: "input_msg_write" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.newMessage,
+              expression: "newMessage"
+            }
+          ],
+          staticClass: "write_msg",
+          attrs: { type: "text", placeholder: "Type a message" },
+          domProps: { value: _vm.newMessage },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
               }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "msg_send_btn",
-                attrs: { type: "button" },
-                on: { click: _vm.sendMessage }
-              },
-              [_c("i", { staticClass: "far fa-paper-plane" })]
-            )
-          ])
-        ])
-      : _vm._e()
+              return _vm.sendMessage($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.newMessage = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "msg_send_btn",
+            attrs: { type: "button" },
+            on: { click: _vm.sendMessage }
+          },
+          [_c("i", { staticClass: "far fa-paper-plane" })]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
