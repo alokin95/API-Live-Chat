@@ -89,10 +89,6 @@
 <style scoped>
 
 
-    .incoming_msg_img {
-        display: inline-block;
-        width: 6%;
-    }
     .received_msg {
         display: inline-block;
         padding: 0 0 0 10px;

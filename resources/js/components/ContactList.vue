@@ -1,17 +1,17 @@
 <template>
 
     <div class="container">
-        <h3 class=" text-center">{{currentUser.username}}</h3>
+        <h3 class="username_user text-center">{{currentUser.username}}</h3>
         <div class="messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
                     <div class="headind_srch">
                         <div class="recent_heading">
-                            <h4>Recent</h4>
+                            <h4>Contacts</h4>
                         </div>
                         <div class="srch_bar">
                             <div class="stylish-input-group">
-                                <input type="text" class="search-bar"  placeholder="Search" >
+                                <input type="text" class="search-bar" placeholder="Search" @keyup="search" v-model="searchUser">
                                 <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                 </span>
@@ -30,7 +30,7 @@
 
                     </div>
                 </div>
-                <h1>{{selected.username}}</h1>
+                <h1 class="chatting_with">{{selected.username}}</h1>
                 <div class="mesgs">
                     <MessageFeed :selectedContact="selected" :messages="messages"/>
                 </div>
@@ -53,11 +53,27 @@
                 currentUser: {},
                 contacts: [],
                 selected: {},
-                messages: []
+                messages: [],
+                searchUser: ""
             }
         },
 
         methods: {
+
+            search()
+            {
+                let self = this;
+
+                axios.get('api/contacts?q='+self.searchUser, {
+                })
+                    .then(function (response)
+                    {
+                        self.contacts = response.data.contacts;
+                    })
+                    .catch(function (error){
+
+                    });
+            },
 
             getAuthUser()
             {
@@ -190,6 +206,22 @@
 </script>
 
 <style scoped>
+    .username_user {
+        height: 50px;
+        text-align: center;
+        padding-top: 1%;
+        font-weight: bold;
+        width: 40%;
+    }
+
+    .chatting_with{
+        height: 50px;
+        background-color: skyblue;
+        text-align: center;
+        padding-top: 1%;
+        font-weight: bold;
+    }
+
     .chat_unread {
         background-color: green;
         border-radius: 100px;
@@ -202,7 +234,7 @@
     .container{max-width:1170px; margin:auto;}
     img{ max-width:100%;}
     .inbox_people {
-        background: #f8f8f8 none repeat scroll 0 0;
+        background: white none repeat scroll 0 0;
         float: left;
         overflow: hidden;
         width: 40%; border-right:1px solid #c4c4c4;
@@ -212,7 +244,6 @@
         clear: both;
         overflow: hidden;
     }
-    .top_spac{ margin: 20px 0 0;}
 
 
     .recent_heading {float: left; width:40%;}
@@ -241,10 +272,6 @@
     .chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
     .chat_ib h5 span{ font-size:13px; float:right;}
     .chat_ib p{ font-size:14px; color:#989898; margin:auto}
-    .chat_img {
-        float: left;
-        width: 11%;
-    }
     .chat_ib {
         float: left;
         padding: 0 0 0 15px;
@@ -260,18 +287,6 @@
     }
     .inbox_chat { height: 550px; overflow-y: scroll;}
 
-    .active_chat{ background:#ebebeb;}
-
-    .incoming_msg_img {
-        display: inline-block;
-        width: 6%;
-    }
-    .received_msg {
-        display: inline-block;
-        padding: 0 0 0 10px;
-        vertical-align: top;
-        width: 92%;
-    }
     .received_withd_msg p {
         background: #ebebeb none repeat scroll 0 0;
         border-radius: 3px;
@@ -281,13 +296,6 @@
         padding: 5px 10px 5px 12px;
         width: 100%;
     }
-    .time_date {
-        color: #747474;
-        display: block;
-        font-size: 12px;
-        margin: 8px 0 0;
-    }
-    .received_withd_msg { width: 57%;}
     .mesgs {
         float: left;
         padding: 30px 15px 0 25px;

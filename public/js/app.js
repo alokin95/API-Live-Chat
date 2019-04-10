@@ -1839,10 +1839,17 @@ __webpack_require__.r(__webpack_exports__);
       currentUser: {},
       contacts: [],
       selected: {},
-      messages: []
+      messages: [],
+      searchUser: ""
     };
   },
   methods: {
+    search: function search() {
+      var self = this;
+      axios.get('api/contacts?q=' + self.searchUser, {}).then(function (response) {
+        self.contacts = response.data.contacts;
+      }).catch(function (error) {});
+    },
     getAuthUser: function getAuthUser() {
       var self = this;
       axios.get('api/auth', {
@@ -2244,7 +2251,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.chat_unread[data-v-0ee8d67a] {\n    background-color: green;\n    border-radius: 100px;\n    width: 20px;\n    height: 20px;\n    text-align: center;\n    font-weight: bold;\n    color: blanchedalmond;\n}\n.container[data-v-0ee8d67a]{max-width:1170px; margin:auto;}\nimg[data-v-0ee8d67a]{ max-width:100%;}\n.inbox_people[data-v-0ee8d67a] {\n    background: #f8f8f8 none repeat scroll 0 0;\n    float: left;\n    overflow: hidden;\n    width: 40%; border-right:1px solid #c4c4c4;\n}\n.inbox_msg[data-v-0ee8d67a] {\n    border: 1px solid #c4c4c4;\n    clear: both;\n    overflow: hidden;\n}\n.top_spac[data-v-0ee8d67a]{ margin: 20px 0 0;}\n.recent_heading[data-v-0ee8d67a] {float: left; width:40%;}\n.srch_bar[data-v-0ee8d67a] {\n    display: inline-block;\n    text-align: right;\n    width: 60%; padding:\n}\n.headind_srch[data-v-0ee8d67a]{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}\n.recent_heading h4[data-v-0ee8d67a] {\n    color: #05728f;\n    font-size: 21px;\n    margin: auto;\n}\n.srch_bar input[data-v-0ee8d67a]{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}\n.srch_bar .input-group-addon button[data-v-0ee8d67a] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    padding: 0;\n    color: #707070;\n    font-size: 18px;\n}\n.srch_bar .input-group-addon[data-v-0ee8d67a] { margin: 0 0 0 -27px;}\n.chat_ib h5[data-v-0ee8d67a]{ font-size:15px; color:#464646; margin:0 0 8px 0;}\n.chat_ib h5 span[data-v-0ee8d67a]{ font-size:13px; float:right;}\n.chat_ib p[data-v-0ee8d67a]{ font-size:14px; color:#989898; margin:auto}\n.chat_img[data-v-0ee8d67a] {\n    float: left;\n    width: 11%;\n}\n.chat_ib[data-v-0ee8d67a] {\n    float: left;\n    padding: 0 0 0 15px;\n    width: 88%;\n}\n.chat_people[data-v-0ee8d67a]{ overflow:hidden; clear:both; cursor: pointer;}\n.chat_list[data-v-0ee8d67a] {\n    cursor: pointer;\n    border-bottom: 1px solid #c4c4c4;\n    margin: 0;\n    padding: 18px 16px 10px;\n}\n.inbox_chat[data-v-0ee8d67a] { height: 550px; overflow-y: scroll;}\n.active_chat[data-v-0ee8d67a]{ background:#ebebeb;}\n.incoming_msg_img[data-v-0ee8d67a] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ee8d67a] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ee8d67a] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ee8d67a] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n}\n.received_withd_msg[data-v-0ee8d67a] { width: 57%;}\n.mesgs[data-v-0ee8d67a] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n\n", ""]);
+exports.push([module.i, "\n.username_user[data-v-0ee8d67a] {\n    height: 50px;\n    text-align: center;\n    padding-top: 1%;\n    font-weight: bold;\n    width: 40%;\n}\n.chatting_with[data-v-0ee8d67a]{\n    height: 50px;\n    background-color: skyblue;\n    text-align: center;\n    padding-top: 1%;\n    font-weight: bold;\n}\n.chat_unread[data-v-0ee8d67a] {\n    background-color: green;\n    border-radius: 100px;\n    width: 20px;\n    height: 20px;\n    text-align: center;\n    font-weight: bold;\n    color: blanchedalmond;\n}\n.container[data-v-0ee8d67a]{max-width:1170px; margin:auto;}\nimg[data-v-0ee8d67a]{ max-width:100%;}\n.inbox_people[data-v-0ee8d67a] {\n    background: white none repeat scroll 0 0;\n    float: left;\n    overflow: hidden;\n    width: 40%; border-right:1px solid #c4c4c4;\n}\n.inbox_msg[data-v-0ee8d67a] {\n    border: 1px solid #c4c4c4;\n    clear: both;\n    overflow: hidden;\n}\n.recent_heading[data-v-0ee8d67a] {float: left; width:40%;}\n.srch_bar[data-v-0ee8d67a] {\n    display: inline-block;\n    text-align: right;\n    width: 60%; padding:\n}\n.headind_srch[data-v-0ee8d67a]{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}\n.recent_heading h4[data-v-0ee8d67a] {\n    color: #05728f;\n    font-size: 21px;\n    margin: auto;\n}\n.srch_bar input[data-v-0ee8d67a]{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}\n.srch_bar .input-group-addon button[data-v-0ee8d67a] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    padding: 0;\n    color: #707070;\n    font-size: 18px;\n}\n.srch_bar .input-group-addon[data-v-0ee8d67a] { margin: 0 0 0 -27px;}\n.chat_ib h5[data-v-0ee8d67a]{ font-size:15px; color:#464646; margin:0 0 8px 0;}\n.chat_ib h5 span[data-v-0ee8d67a]{ font-size:13px; float:right;}\n.chat_ib p[data-v-0ee8d67a]{ font-size:14px; color:#989898; margin:auto}\n.chat_ib[data-v-0ee8d67a] {\n    float: left;\n    padding: 0 0 0 15px;\n    width: 88%;\n}\n.chat_people[data-v-0ee8d67a]{ overflow:hidden; clear:both; cursor: pointer;}\n.chat_list[data-v-0ee8d67a] {\n    cursor: pointer;\n    border-bottom: 1px solid #c4c4c4;\n    margin: 0;\n    padding: 18px 16px 10px;\n}\n.inbox_chat[data-v-0ee8d67a] { height: 550px; overflow-y: scroll;}\n.received_withd_msg p[data-v-0ee8d67a] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.mesgs[data-v-0ee8d67a] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n\n", ""]);
 
 // exports
 
@@ -2263,7 +2270,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.incoming_msg_img[data-v-0ecf4eaa] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ecf4eaa] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ecf4eaa], .received_withd_msg_mine p[data-v-0ecf4eaa] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ecf4eaa] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n    text-align: center;\n}\n.received_withd_msg[data-v-0ecf4eaa] { width: 57%;\n}\n.received_withd_msg_mine[data-v-0ecf4eaa] { width: 57%; float: right;\n}\n.mesgs[data-v-0ecf4eaa] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n.sent_msg p[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border-radius: 3px;\n    font-size: 14px;\n    margin: 0; color:#fff;\n    padding: 5px 10px 5px 12px;\n    width:100%;\n}\n.outgoing_msg[data-v-0ecf4eaa]{ overflow:hidden; margin:26px 0 26px;}\n.sent_msg[data-v-0ecf4eaa] {\n    float: right;\n    width: 46%;\n}\n.input_msg_write input[data-v-0ecf4eaa] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    color: #4c4c4c;\n    font-size: 15px;\n    min-height: 48px;\n    width: 100%;\n}\n.type_msg[data-v-0ecf4eaa] {border-top: 1px solid #c4c4c4;position: relative;}\n.msg_send_btn[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border: medium none;\n    border-radius: 50%;\n    color: #fff;\n    cursor: pointer;\n    font-size: 17px;\n    height: 33px;\n    position: absolute;\n    right: 0;\n    top: 11px;\n    width: 33px;\n}\n.messaging[data-v-0ecf4eaa] { padding: 0 0 50px 0;}\n.msg_history[data-v-0ecf4eaa] {\n    height: 516px;\n    overflow-y: auto;\n}\n", ""]);
+exports.push([module.i, "\n.received_msg[data-v-0ecf4eaa] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ecf4eaa], .received_withd_msg_mine p[data-v-0ecf4eaa] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ecf4eaa] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n    text-align: center;\n}\n.received_withd_msg[data-v-0ecf4eaa] { width: 57%;\n}\n.received_withd_msg_mine[data-v-0ecf4eaa] { width: 57%; float: right;\n}\n.mesgs[data-v-0ecf4eaa] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n.sent_msg p[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border-radius: 3px;\n    font-size: 14px;\n    margin: 0; color:#fff;\n    padding: 5px 10px 5px 12px;\n    width:100%;\n}\n.outgoing_msg[data-v-0ecf4eaa]{ overflow:hidden; margin:26px 0 26px;}\n.sent_msg[data-v-0ecf4eaa] {\n    float: right;\n    width: 46%;\n}\n.input_msg_write input[data-v-0ecf4eaa] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    color: #4c4c4c;\n    font-size: 15px;\n    min-height: 48px;\n    width: 100%;\n}\n.type_msg[data-v-0ecf4eaa] {border-top: 1px solid #c4c4c4;position: relative;}\n.msg_send_btn[data-v-0ecf4eaa] {\n    background: #05728f none repeat scroll 0 0;\n    border: medium none;\n    border-radius: 50%;\n    color: #fff;\n    cursor: pointer;\n    font-size: 17px;\n    height: 33px;\n    position: absolute;\n    right: 0;\n    top: 11px;\n    width: 33px;\n}\n.messaging[data-v-0ecf4eaa] { padding: 0 0 50px 0;}\n.msg_history[data-v-0ecf4eaa] {\n    height: 516px;\n    overflow-y: auto;\n}\n", ""]);
 
 // exports
 
@@ -13741,14 +13748,45 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h3", { staticClass: " text-center" }, [
+    _c("h3", { staticClass: "username_user text-center" }, [
       _vm._v(_vm._s(_vm.currentUser.username))
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "messaging" }, [
       _c("div", { staticClass: "inbox_msg" }, [
         _c("div", { staticClass: "inbox_people" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "headind_srch" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "srch_bar" }, [
+              _c("div", { staticClass: "stylish-input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchUser,
+                      expression: "searchUser"
+                    }
+                  ],
+                  staticClass: "search-bar",
+                  attrs: { type: "text", placeholder: "Search" },
+                  domProps: { value: _vm.searchUser },
+                  on: {
+                    keyup: _vm.search,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.searchUser = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(1)
+              ])
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -13785,7 +13823,9 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("h1", [_vm._v(_vm._s(_vm.selected.username))]),
+        _c("h1", { staticClass: "chatting_with" }, [
+          _vm._v(_vm._s(_vm.selected.username))
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -13806,27 +13846,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "headind_srch" }, [
-      _c("div", { staticClass: "recent_heading" }, [
-        _c("h4", [_vm._v("Recent")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "srch_bar" }, [
-        _c("div", { staticClass: "stylish-input-group" }, [
-          _c("input", {
-            staticClass: "search-bar",
-            attrs: { type: "text", placeholder: "Search" }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "input-group-addon" }, [
-            _c("button", { attrs: { type: "button" } }, [
-              _c("i", {
-                staticClass: "fa fa-search",
-                attrs: { "aria-hidden": "true" }
-              })
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "recent_heading" }, [
+      _c("h4", [_vm._v("Contacts")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-addon" }, [
+      _c("button", { attrs: { type: "button" } }, [
+        _c("i", {
+          staticClass: "fa fa-search",
+          attrs: { "aria-hidden": "true" }
+        })
       ])
     ])
   }
