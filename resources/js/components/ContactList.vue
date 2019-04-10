@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <h3 class=" text-center">Messaging</h3>
+        <h3 class=" text-center">{{currentUser.username}}</h3>
         <div class="messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
@@ -23,7 +23,7 @@
                         <div v-for="contact in contacts" class="chat_list" :class="{ active_chat : contact.id == selected.id}" @click="startConversationWith(contact)">
                             <div class="chat_people">
                                 <div class="chat_ib">
-                                    <h5>{{contact.username}}</h5>
+                                    <h5>{{contact.username}}<span v-if="contact.sent_messages_count > 0"class="chat_unread">{{contact.sent_messages_count}}</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -93,6 +93,8 @@
             {
                 this.selected = contact;
 
+                this.updateReadCount(contact.id, true);
+
                 this.loadMessages(contact.id);
             },
 
@@ -112,11 +114,46 @@
                     })
             },
 
+            saveNewMessage(message)
+            {
+                this.messages.push(message);
+            },
+
+            handleIncomingMessages(message)
+            {
+                if (message.from == this.selected.id)
+                {
+                    this.saveNewMessage(message);
+                    return;
+                }
+
+                this.updateReadCount(message.from);
+            },
+
+            updateReadCount(sender, reset = false)
+            {
+              this.contacts = this.contacts.map((singleContact) => {
+                  if (singleContact.id != sender)
+                  {
+                      return singleContact;
+                  }
+
+                  if (reset)
+                  {
+                      singleContact.sent_messages_count = 0;
+                      return singleContact;
+                  }
+
+                  singleContact.sent_messages_count+=1;
+                  return singleContact;
+              })
+            },
+
             listenChannel()
             {
                 window.Echo.private(`messages.${this.currentUser.id}`)
                     .listen('MessageSent', e => {
-                        this.messages.push(e.message);
+                        this.handleIncomingMessages(e.message);
                     });
             }
 
@@ -144,6 +181,15 @@
 </script>
 
 <style scoped>
+    .chat_unread {
+        background-color: green;
+        border-radius: 100px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-weight: bold;
+        color: blanchedalmond;
+    }
     .container{max-width:1170px; margin:auto;}
     img{ max-width:100%;}
     .inbox_people {

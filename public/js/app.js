@@ -1770,7 +1770,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1863,6 +1862,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     startConversationWith: function startConversationWith(contact) {
       this.selected = contact;
+      this.updateReadCount(contact.id, true);
       this.loadMessages(contact.id);
     },
     loadMessages: function loadMessages(contactId) {
@@ -1873,11 +1873,38 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    saveNewMessage: function saveNewMessage(message) {
+      this.messages.push(message);
+    },
+    handleIncomingMessages: function handleIncomingMessages(message) {
+      if (message.from == this.selected.id) {
+        this.saveNewMessage(message);
+        return;
+      }
+
+      this.updateReadCount(message.from);
+    },
+    updateReadCount: function updateReadCount(sender) {
+      var reset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      this.contacts = this.contacts.map(function (singleContact) {
+        if (singleContact.id != sender) {
+          return singleContact;
+        }
+
+        if (reset) {
+          singleContact.sent_messages_count = 0;
+          return singleContact;
+        }
+
+        singleContact.sent_messages_count += 1;
+        return singleContact;
+      });
+    },
     listenChannel: function listenChannel() {
       var _this = this;
 
       window.Echo.private("messages.".concat(this.currentUser.id)).listen('MessageSent', function (e) {
-        _this.messages.push(e.message);
+        _this.handleIncomingMessages(e.message);
       });
     }
   },
@@ -2210,7 +2237,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.container[data-v-0ee8d67a]{max-width:1170px; margin:auto;}\nimg[data-v-0ee8d67a]{ max-width:100%;}\n.inbox_people[data-v-0ee8d67a] {\n    background: #f8f8f8 none repeat scroll 0 0;\n    float: left;\n    overflow: hidden;\n    width: 40%; border-right:1px solid #c4c4c4;\n}\n.inbox_msg[data-v-0ee8d67a] {\n    border: 1px solid #c4c4c4;\n    clear: both;\n    overflow: hidden;\n}\n.top_spac[data-v-0ee8d67a]{ margin: 20px 0 0;}\n.recent_heading[data-v-0ee8d67a] {float: left; width:40%;}\n.srch_bar[data-v-0ee8d67a] {\n    display: inline-block;\n    text-align: right;\n    width: 60%; padding:\n}\n.headind_srch[data-v-0ee8d67a]{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}\n.recent_heading h4[data-v-0ee8d67a] {\n    color: #05728f;\n    font-size: 21px;\n    margin: auto;\n}\n.srch_bar input[data-v-0ee8d67a]{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}\n.srch_bar .input-group-addon button[data-v-0ee8d67a] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    padding: 0;\n    color: #707070;\n    font-size: 18px;\n}\n.srch_bar .input-group-addon[data-v-0ee8d67a] { margin: 0 0 0 -27px;}\n.chat_ib h5[data-v-0ee8d67a]{ font-size:15px; color:#464646; margin:0 0 8px 0;}\n.chat_ib h5 span[data-v-0ee8d67a]{ font-size:13px; float:right;}\n.chat_ib p[data-v-0ee8d67a]{ font-size:14px; color:#989898; margin:auto}\n.chat_img[data-v-0ee8d67a] {\n    float: left;\n    width: 11%;\n}\n.chat_ib[data-v-0ee8d67a] {\n    float: left;\n    padding: 0 0 0 15px;\n    width: 88%;\n}\n.chat_people[data-v-0ee8d67a]{ overflow:hidden; clear:both; cursor: pointer;}\n.chat_list[data-v-0ee8d67a] {\n    cursor: pointer;\n    border-bottom: 1px solid #c4c4c4;\n    margin: 0;\n    padding: 18px 16px 10px;\n}\n.inbox_chat[data-v-0ee8d67a] { height: 550px; overflow-y: scroll;}\n.active_chat[data-v-0ee8d67a]{ background:#ebebeb;}\n.incoming_msg_img[data-v-0ee8d67a] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ee8d67a] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ee8d67a] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ee8d67a] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n}\n.received_withd_msg[data-v-0ee8d67a] { width: 57%;}\n.mesgs[data-v-0ee8d67a] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n\n", ""]);
+exports.push([module.i, "\n.chat_unread[data-v-0ee8d67a] {\n    background-color: green;\n    border-radius: 100px;\n    width: 20px;\n    height: 20px;\n    text-align: center;\n    font-weight: bold;\n    color: blanchedalmond;\n}\n.container[data-v-0ee8d67a]{max-width:1170px; margin:auto;}\nimg[data-v-0ee8d67a]{ max-width:100%;}\n.inbox_people[data-v-0ee8d67a] {\n    background: #f8f8f8 none repeat scroll 0 0;\n    float: left;\n    overflow: hidden;\n    width: 40%; border-right:1px solid #c4c4c4;\n}\n.inbox_msg[data-v-0ee8d67a] {\n    border: 1px solid #c4c4c4;\n    clear: both;\n    overflow: hidden;\n}\n.top_spac[data-v-0ee8d67a]{ margin: 20px 0 0;}\n.recent_heading[data-v-0ee8d67a] {float: left; width:40%;}\n.srch_bar[data-v-0ee8d67a] {\n    display: inline-block;\n    text-align: right;\n    width: 60%; padding:\n}\n.headind_srch[data-v-0ee8d67a]{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}\n.recent_heading h4[data-v-0ee8d67a] {\n    color: #05728f;\n    font-size: 21px;\n    margin: auto;\n}\n.srch_bar input[data-v-0ee8d67a]{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}\n.srch_bar .input-group-addon button[data-v-0ee8d67a] {\n    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;\n    border: medium none;\n    padding: 0;\n    color: #707070;\n    font-size: 18px;\n}\n.srch_bar .input-group-addon[data-v-0ee8d67a] { margin: 0 0 0 -27px;}\n.chat_ib h5[data-v-0ee8d67a]{ font-size:15px; color:#464646; margin:0 0 8px 0;}\n.chat_ib h5 span[data-v-0ee8d67a]{ font-size:13px; float:right;}\n.chat_ib p[data-v-0ee8d67a]{ font-size:14px; color:#989898; margin:auto}\n.chat_img[data-v-0ee8d67a] {\n    float: left;\n    width: 11%;\n}\n.chat_ib[data-v-0ee8d67a] {\n    float: left;\n    padding: 0 0 0 15px;\n    width: 88%;\n}\n.chat_people[data-v-0ee8d67a]{ overflow:hidden; clear:both; cursor: pointer;}\n.chat_list[data-v-0ee8d67a] {\n    cursor: pointer;\n    border-bottom: 1px solid #c4c4c4;\n    margin: 0;\n    padding: 18px 16px 10px;\n}\n.inbox_chat[data-v-0ee8d67a] { height: 550px; overflow-y: scroll;}\n.active_chat[data-v-0ee8d67a]{ background:#ebebeb;}\n.incoming_msg_img[data-v-0ee8d67a] {\n    display: inline-block;\n    width: 6%;\n}\n.received_msg[data-v-0ee8d67a] {\n    display: inline-block;\n    padding: 0 0 0 10px;\n    vertical-align: top;\n    width: 92%;\n}\n.received_withd_msg p[data-v-0ee8d67a] {\n    background: #ebebeb none repeat scroll 0 0;\n    border-radius: 3px;\n    color: #646464;\n    font-size: 14px;\n    margin: 0;\n    padding: 5px 10px 5px 12px;\n    width: 100%;\n}\n.time_date[data-v-0ee8d67a] {\n    color: #747474;\n    display: block;\n    font-size: 12px;\n    margin: 8px 0 0;\n}\n.received_withd_msg[data-v-0ee8d67a] { width: 57%;}\n.mesgs[data-v-0ee8d67a] {\n    float: left;\n    padding: 30px 15px 0 25px;\n    width: 60%;\n}\n\n", ""]);
 
 // exports
 
@@ -13682,11 +13709,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [_c("h1", [_vm._v("Chat App")]), _vm._v(" "), _c("ContactList")],
-    1
-  )
+  return _c("div", [_c("ContactList")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13711,7 +13734,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h3", { staticClass: " text-center" }, [_vm._v("Messaging")]),
+    _c("h3", { staticClass: " text-center" }, [
+      _vm._v(_vm._s(_vm.currentUser.username))
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "messaging" }, [
       _c("div", { staticClass: "inbox_msg" }, [
@@ -13736,7 +13761,14 @@ var render = function() {
                 [
                   _c("div", { staticClass: "chat_people" }, [
                     _c("div", { staticClass: "chat_ib" }, [
-                      _c("h5", [_vm._v(_vm._s(contact.username))])
+                      _c("h5", [
+                        _vm._v(_vm._s(contact.username)),
+                        contact.sent_messages_count > 0
+                          ? _c("span", { staticClass: "chat_unread" }, [
+                              _vm._v(_vm._s(contact.sent_messages_count))
+                            ])
+                          : _vm._e()
+                      ])
                     ])
                   ])
                 ]
