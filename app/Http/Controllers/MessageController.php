@@ -10,8 +10,18 @@ use App\Events\MessageSent;
 class MessageController extends Controller
 {
 
+    private function markAsRead()
+    {
+        Message::where([
+            'from' => request()->user,
+            'to' => auth()->user()->id
+        ])->update(['read' => true]);
+    }
+
     public function index()
     {
+        $this->markAsRead();
+
         $messages = Message::where(function ($query)
         {
             $query->where([
@@ -35,6 +45,7 @@ class MessageController extends Controller
 
     public function store()
     {
+        $this->markAsRead();
 
         request()->validate([
             'message' => 'required',
