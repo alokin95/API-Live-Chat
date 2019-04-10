@@ -206,6 +206,9 @@
 </script>
 
 <style scoped>
+
+    .active_chat{ background:#87ceeb;}
+
     .username_user {
         height: 50px;
         text-align: center;
