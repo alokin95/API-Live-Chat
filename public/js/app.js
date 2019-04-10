@@ -1857,6 +1857,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/contacts?token=' + $cookies.get('token'), {}).then(function (response) {
         self.contacts = response.data.contacts;
         self.selected = response.data.contacts[0];
+        self.updateReadCount(self.selected.id, true);
         self.loadMessages(self.selected.id);
       });
     },
@@ -1873,10 +1874,16 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    playSound: function playSound() {
+      var audio = new Audio('http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3');
+      audio.play();
+    },
     saveNewMessage: function saveNewMessage(message) {
       this.messages.push(message);
     },
     handleIncomingMessages: function handleIncomingMessages(message) {
+      this.playSound();
+
       if (message.from == this.selected.id) {
         this.saveNewMessage(message);
         return;

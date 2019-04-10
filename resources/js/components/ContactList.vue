@@ -84,6 +84,8 @@
 
                         self.selected = response.data.contacts[0];
 
+                        self.updateReadCount(self.selected.id, true);
+
                         self.loadMessages(self.selected.id);
 
                     })
@@ -114,6 +116,12 @@
                     })
             },
 
+            playSound ()
+            {
+                let audio = new Audio('http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3');
+                audio.play();
+            },
+
             saveNewMessage(message)
             {
                 this.messages.push(message);
@@ -121,6 +129,7 @@
 
             handleIncomingMessages(message)
             {
+                this.playSound();
                 if (message.from == this.selected.id)
                 {
                     this.saveNewMessage(message);
