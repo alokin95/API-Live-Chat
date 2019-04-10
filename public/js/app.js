@@ -1857,6 +1857,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         self.currentUser = response.data.user;
         self.listenChannel();
+      }).catch(function (error) {
+        self.$router.push('/');
       });
     },
     loadContacts: function loadContacts() {

@@ -44,5 +44,10 @@ class AuthController extends Controller
                     'token' => $token
                 ], 200);
         }
+
+        return response()
+            ->json([
+                'message' => 'User not found'
+            ], 403);
     }
 }

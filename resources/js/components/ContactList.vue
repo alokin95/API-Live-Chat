@@ -87,6 +87,10 @@
 
                     self.listenChannel();
                 })
+                    .catch(function (error)
+                    {
+                        self.$router.push('/');
+                    })
             },
 
             loadContacts() {
